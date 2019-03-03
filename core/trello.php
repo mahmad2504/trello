@@ -395,6 +395,8 @@ class Trello
 	{
 		global $params;
 		global $settings;
+		$trello_settings = $settings->app->trello;
+		
 		$lists = array();
 		$lists[] = '5a851a762654fc6a36e11f48';
 		$lists[] = '5a78b08c6f85c304e464aa07';
@@ -403,22 +405,24 @@ class Trello
 		foreach($lists as $listid)
 		{
 			$i++;
-			$url = 'https://api.trello.com/1/lists/'.$listid.'/cards?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9';
+			$url = $trello_settings->url.'/lists/'.$listid.'/cards?key='.$trello_settings->key.'&token='.$trello_settings->token;
 			SendConsole(time(),"Accessing api.trello.com for list #".$i); 
 
 			$content = file_get_contents($url);
 			$data = json_Decode($content);
 			$content = '';
+			$total = count($data);
 			SendConsole(time(),count($data)." Cards Found "); 
 			$j = 0;
 			foreach($data as $d)
 			{
-				$url= 'https://api.trello.com/1/card/'.$d->id.'/actions?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9&filter=updateCheckItemStateOnCard';
+				$url= $trello_settings->url.'/card/'.$d->id.'/actions?key='.$trello_settings->key.'&token='.$trello_settings->token.'&filter=updateCheckItemStateOnCard';
 				$j++;
 				//SendConsole(time(),$d->id); 
 				//if($j > 5)
 				//	continue;
-				SendConsole(time(),"Reading card #".$j); 	
+				SendConsole(time(),"Reading card #".$j."/".$total); 	
+				
 				$content = file_get_contents($url);
 				$content = json_Decode($content);
 				$debug=array();

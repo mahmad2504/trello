@@ -10,9 +10,9 @@
 </head>
 <body>
 	<p>
-		<button id="clear">Clear log</button>
-		<button id="close">Disconnect</button>
-		<button id='sync'>Sync</button>
+		<!-- <button id="clear">Clear log</button>
+		<button id="close">Disconnect</button> -->
+	<button id='sync'>Sync</button>
 		<span id="connection"><div></div></span>
 	</p>
 	<div class="border" id="log"></div>

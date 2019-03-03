@@ -50,6 +50,10 @@
 		"logfile" : "log.txt"
 	},
 	"app" : {
-		"name" : "appname"
+		"trello" : {
+			"url" : "https://api.trello.com/1",
+			"key" : "005173e331a61db3768a13e6e9d1160e",
+			"token" : "0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9"
+		}
 	}
 }

@@ -30,29 +30,56 @@
 	
 	<span id="toolbar"  style="color:white;float:right;margin-right:10px;display:none;">
 		<a href="#">
-				<i id="download"  class="fa fa-download fa-sm fa-border" aria-hidden="true"></i>  
+				<i style="color:lawngreen;" id="download"  title="Download data" class="fa fa-download fa-sm fa-border" aria-hidden="true"></i>  
 		</a>
 		<a href="#" >
 			<?php
-				$color ='';
+				$color ='color:lawngreen';
 				if($params->filter == 0)
 					$color ='color:grey';
 			?>
-			<i style="<?php echo $color;?>" class="download fas fa-filter fa-sm fa-border" aria-hidden="true" onclick="onFilterClick();">
+			<i style="<?php echo $color;?>" title="Toggle Seacrh Filters" class="download fas fa-filter fa-sm fa-border" aria-hidden="true" onclick="onFilterClick();">
 			</i>
 		</a>
 		<a href="#">
 			<?php
-				$color ='';
+				$color ='color:lawngreen';
 				if($params->paging == 0)
 					$color ='color:grey';
 			?>
-			<i style="<?php echo $color;?>" class="download fas fa-columns fa-sm fa-border" aria-hidden="true" onclick="onPagingClick();">
+			<i style="<?php echo $color;?>" title="Toggle Pagging" class="download fas fa-columns fa-sm fa-border" aria-hidden="true" onclick="onPagingClick();">
+			</i>
+		</a>
+		<a data-toggle="modal" data-target="#myModal" href="#">
+			<i style="color:lawngreen;" title="Sync with trello" class="fas fa-sync fa-sm fa-border" aria-hidden="true">
 			</i>
 		</a>
 	</span>
   </div>
 </nav>
+
+<!-- Modal -->
+<div class="modal fade" width="1250" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <!--<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>-->
+      <div class="modal-body">
+          <iframe src="sync" width="465" height="180" frameborder="0" allowtransparency="true"></iframe>  
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script>
 	if(resource == 'invoices')
 	{

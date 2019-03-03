@@ -41,8 +41,8 @@ body
 }
 #log {
   overflow: auto;
-  width: 500px;
-  height: 450px;
+  width: 425px;
+  height: 50px;
   margin-right: 20px;
   float: left;
 }

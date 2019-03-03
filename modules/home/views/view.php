@@ -11,7 +11,6 @@
 <body>
 	<?php include 'modules/assets/header.php'; ?>
 	<div style="width:100%; margin-left: auto; margin-right: auto; text-align:center;color:grey" class="center">
-	
 		<div id="table1">
 		</div>
 	</div>
