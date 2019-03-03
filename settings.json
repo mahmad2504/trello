@@ -1,0 +1,55 @@
+{
+	"framework" : {
+		"jira" : {
+			"conf" : {
+				"mentor" : {
+					"url" : "http://jira.alm.mentorg.com:8080",
+					"cred" : {
+						"user" : "himp",
+						"pass" : "hmip",
+						"token" : ""
+					}
+				},
+				"atlassian" : {
+					"url" : "https://mentorgraphics.atlassian.net",
+					"cred" : {
+						"user" : "mahmad",
+						"pass" : "gsmp1000",
+						"token" : ""
+					}
+				}
+			}
+		},
+		"mongo" : {
+			"server" : "mongodb://localhost:27017",
+			"db" : "cvedb"
+		},
+		"routes" : [
+			{
+				"method" : "ANY",
+				"uri" : "/",
+				"endpoint" : "modules/home/index.php"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/sync",
+				"endpoint" : "modules/sync/index.php"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/shipments",
+				"endpoint" : "modules/shipments/index.php"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/invoices",
+				"endpoint" : "modules/invoices/index.php"
+			}
+		],
+		"data_folder" : "data",
+		"logfile" : "log.txt"
+	},
+	"app" : {
+		"name" : "appname"
+	}
+}
