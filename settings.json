@@ -5,8 +5,8 @@
 				"mentor" : {
 					"url" : "http://jira.alm.mentorg.com:8080",
 					"cred" : {
-						"user" : "himp",
-						"pass" : "hmip",
+						"user" : "",
+						"pass" : "",
 						"token" : ""
 					}
 				},
