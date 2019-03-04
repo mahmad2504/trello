@@ -146,7 +146,7 @@ class JiraRest
 									$prop = strtolower($keyvalue[0]);
 									if(!isset($issue->$prop))
 										$issue->$prop = array();
-									//$issue->$prop[] = $keyvalue[1]; //TBF
+									$issue->$prop[] = $keyvalue[1];
 								}
 							}
 							break;

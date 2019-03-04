@@ -189,6 +189,7 @@ class Trello
 				$obj->delay =  0;
 				$obj->qos = $obj->delay;
 				$obj->invoice = 0;
+				$obj->converted_invoice = -1;
 				$obj->currency = '';
 				$obj->list = $d->list;
 				$obj->export = $d->export;
@@ -233,11 +234,6 @@ class Trello
 				$shipment->currency = 'SEK';
 				//echo $shipment->currency;
 			}
-			else if(strpos($shipment->invoice,'USD')!= False)
-			{
-				$shipment->invoice = trim(str_replace('USD','',$shipment->invoice));
-				$shipment->currency = 'USD';
-			}
 			else if(strpos($shipment->invoice,'Euros')!= False)
 			{
 				$shipment->invoice = trim(str_replace('Euros','',$shipment->invoice));
@@ -258,15 +254,20 @@ class Trello
 				$shipment->invoice = trim(str_replace('PKR','',$shipment->invoice));
 				$shipment->currency = 'PKR';
 			}
+			else if(strpos($shipment->invoice,'CNY')!= False)
+			{
+				$shipment->invoice = trim(str_replace('CNY','',$shipment->invoice));
+				$shipment->currency = 'CNY';
+			}
 			else if(strpos($shipment->invoice,'US$')!= False)
 			{
 				$shipment->invoice = trim(str_replace('US$','',$shipment->invoice));
 				$shipment->currency = 'USD';
 			}
-			else if(strpos($shipment->invoice,'CNY')!= False)
+			else if(strpos($shipment->invoice,'USD')!= False)
 			{
-				$shipment->invoice = trim(str_replace('CNY','',$shipment->invoice));
-				$shipment->currency = 'CNY';
+				$shipment->invoice = trim(str_replace('USD','',$shipment->invoice));
+				$shipment->currency = 'USD';
 			}
 			else
 			{
@@ -276,6 +277,23 @@ class Trello
 			$shipment->invoice = str_replace(',','',$shipment->invoice);
 			
 			//echo $shipment->invoice."<br>";
+			$parts = explode('(',$shipment->invoice);
+			$shipment->converted_invoice = -1;
+			if(count($parts)>1)
+			{
+				//var_dump($parts);
+				$shipment->invoice=trim($parts[0]);
+				$shipment->converted_invoice = explode(")",$parts[1])[0];
+				$shipment->converted_invoice = trim(str_replace('USD','',$shipment->converted_invoice));
+			}
+			
+			//$shipment->invoice = trim($shipment->invoice);
+			
+			//echo "-->".$shipment->invoice."--<br>";
+			//echo $shipment->error."<br>";
+			//echo $shipment->currency."<br>";
+			//echo $shipment->converted_invoice."<br>";
+			
 			if(!ctype_digit(explode(".",$shipment->invoice)[0]))
 			{
 				$shipment->error = 1;
@@ -382,6 +400,7 @@ class Trello
 			$obj->received_date = $shipment->receivedon;
 			$obj->delay =  $shipment->delay;
 			$obj->invoice = $shipment->invoice;
+			$obj->converted_invoice = $shipment->converted_invoice;
 			$obj->currency = $shipment->currency;
 			$obj->list = $d->list;
 			$obj->export = $d->export;
@@ -419,7 +438,10 @@ class Trello
 				$url= $trello_settings->url.'/card/'.$d->id.'/actions?key='.$trello_settings->key.'&token='.$trello_settings->token.'&filter=updateCheckItemStateOnCard';
 				$j++;
 				//SendConsole(time(),$d->id); 
-				//if($j > 5)
+				//if($j < 5)
+				//	continue;
+				
+				//if($j > 15)
 				//	continue;
 				SendConsole(time(),"Reading card #".$j."/".$total); 	
 				

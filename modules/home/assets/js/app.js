@@ -39,7 +39,7 @@ $(function()
 		columns:
 		[
 			{resizable: false,title:"",formatter:"rownum", align:"center", width:"3%", headerSort:false},
-			{resizable: false,title:"Name",field:"name", headerFilter:enablefilters, width:"15%",
+			{resizable: false,title:"Shipment Title",field:"name", headerFilter:enablefilters, width:"15%",
 				formatter:function(cell, formatterParams)
 				{
 					var value = cell.getValue();
@@ -87,9 +87,16 @@ $(function()
 				
 			},
 			{resizable: false,title:"Invoice",headerFilter:enablefilters, field:"invoice",sorter:"number",align:"left", width:"7%",
-		
-			}
-			,
+				formatter:function(cell, formatterParams)
+				{
+					var value = cell.getValue();
+					var row = cell.getRow();
+					if(row._row.data.converted_invoice != -1)
+						return value+'<span style="font-size:9px;"> '+row._row.data.converted_invoice+'$</span>';
+					return value;
+					//return '<a href="'+row._row.data.url+'">'+value+'</a>';
+				}	
+			},
 			{resizable: false,title:"CUR",headerFilter:enablefilters, field:"currency",align:"left", width:"5%",
 		
 			},
