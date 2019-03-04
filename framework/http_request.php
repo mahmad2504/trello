@@ -33,6 +33,9 @@ class http_request {
 		
 		$basepath = pathinfo($_SERVER['SCRIPT_NAME'])['dirname'];
 		$this->request_uri = explode('?',$_SERVER['REQUEST_URI'])[0];
+		if($basepath == "\\")
+			$basepath = "/";
+		
 		$this->request_uri = explode($basepath,$this->request_uri)[1];
 		$this->request_parts = explode("/",$this->request_uri);
 		array_shift($this->request_parts);
