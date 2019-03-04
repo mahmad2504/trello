@@ -13,8 +13,8 @@
 				"atlassian" : {
 					"url" : "https://mentorgraphics.atlassian.net",
 					"cred" : {
-						"user" : "mahmad",
-						"pass" : "gsmp1000",
+						"user" : "",
+						"pass" : "",
 						"token" : ""
 					}
 				}
