@@ -6,7 +6,7 @@ var options =
 	height: 400,
 	legend: { position: 'right' },
 	vAxis: {minValue: 0},
-	'backgroundColor': 'transparent',
+	//'backgroundColor': 'transparent',
 	//hAxis : { textPosition: 'none', gridlines: {color:"#000000"} },
 	
 	//'backgroundColor': 'transparent',
@@ -15,20 +15,7 @@ $(function()
 {
 	"use strict";
 	console.log("Starting Module Visual JS");
-	$('.download').hide();
-	$('#cbquarterly').click(function() {
-		DrawQuarterShipmentChart(jsondata.data['quarterly']);
-	});
-	
-	$('#cbmonthly').click(function() {
-		DrawMonthShipmentChart(jsondata.data['monthly']);
-	});
-	$('#cbbiannually').click(function() {
-		DrawBiannuallShipmentChart(jsondata.data['biannually']);
-	});
-	$('#cbannually').click(function() {
-		DrawYearShipmentChart(jsondata.data['yearly']);
-	});
+
 	$('#cbproperty').click(function() {
 		DrawPropertyShipmentChart(jsondata.data['property']);
 	});
@@ -38,9 +25,6 @@ $(function()
 	$('#cbteam').click(function() {
 		DrawTeamShipmentChart(jsondata.data['team']);
 	});
-	
-	
-	
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
 })
@@ -80,10 +64,25 @@ function drawChart()
         dataType: "json",
         success: function (json) {
 			jsondata = json;
-			DrawMonthShipmentChart(json.data['monthly']);
+			
 			$('#spinner').hide();
-			$('#row2').show();
-			DrawPropertyShipmentChart(json.data['property']);
+			$('#radios').show();
+			
+			if(params.country == 1)
+			{
+				$('#cbcountry').attr('checked', true);
+				DrawCountryShipmentChart(jsondata.data['country']);
+			}
+			else if(params.team == 1)
+			{
+				$('#cbteam').attr('checked', true);
+				DrawTeamShipmentChart(jsondata.data['team']);
+			}
+			else
+			{
+				$('#cbproperty').attr('checked', true);
+				DrawPropertyShipmentChart(jsondata.data['property']);
+			}
 		}
     }) 
     // Create our data table out of JSON data loaded from server.
@@ -100,7 +99,7 @@ function DrawTeamShipmentChart(data)
 	options.bar = {groupWidth: "20%"};
 	options.series = {1: {type: 'line'}};
 	
-	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div2'));
+	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div'));
 	chart.draw(data, options);
 }
 function DrawCountryShipmentChart(data)
@@ -111,7 +110,7 @@ function DrawCountryShipmentChart(data)
 	options.bar = {groupWidth: "20%"};
 	options.series = {1: {type: 'line'}};
 	
-	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div2'));
+	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div'));
 	chart.draw(data, options);
 }
 function DrawPropertyShipmentChart(data)
@@ -123,7 +122,7 @@ function DrawPropertyShipmentChart(data)
 	options.bar = {groupWidth: "20%"};
 	options.series = {1: {type: 'line'}};
 	
-	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div2'));
+	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div'));
 	chart.draw(data, options);
 }
 function DrawYearShipmentChart(data)
@@ -189,4 +188,7 @@ function DrawMonthShipmentChart(data)
 	
 	var chart = new google.visualization.ColumnChart(document.getElementById('shipment_chart_div'));
 	chart.draw(data, options);
+	//var anchor1 = document.getElementById('anchor1')
+	//anchor1.innerHTML = '<a href="' + chart.getImageURI() + '">D</a>';
+	// '<a href="' + chart.getChart().getImageURI() + '">Printable version</a>'
 }

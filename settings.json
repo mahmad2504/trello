@@ -28,7 +28,7 @@
 			{
 				"method" : "ANY",
 				"uri" : "/",
-				"endpoint" : "modules/home/index.php"
+				"endpoint" : "modules/homepage/index.php"
 			},
 			{
 				"method" : "ANY",
@@ -38,12 +38,37 @@
 			{
 				"method" : "ANY",
 				"uri" : "/shipments",
-				"endpoint" : "modules/shipments/index.php"
+				"endpoint" : "modules/shipmentspage/index.php"
 			},
 			{
 				"method" : "ANY",
 				"uri" : "/invoices",
-				"endpoint" : "modules/invoices/index.php"
+				"endpoint" : "modules/invoicespage/index.php"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/graph/shipment/count",
+				"endpoint" : "modules/shipmentgraph/index.php?view=count"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/graph/shipment/category",
+				"endpoint" : "modules/shipmentgraph/index.php?view=category"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/graph/invoices/owners",
+				"endpoint" : "modules/invoicegraph/index.php?view=owner"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/graph/invoices/countries",
+				"endpoint" : "modules/invoicegraph/index.php?view=country"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/graph/invoices/teams",
+				"endpoint" : "modules/invoicegraph/index.php?view=team"
 			}
 		],
 		"data_folder" : "data",

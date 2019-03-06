@@ -23,7 +23,7 @@
 		  </a>
         </li>
 		<li id="invoicescont" id="invoices" class="nav-item">
-          <a id="invoiceslink" class="nav-link disabled" href="#">Invoices</a>
+          <a id="invoiceslink" class="nav-link" href="this/../invoices">Invoices</a>
         </li>
       </ul>
     </div>

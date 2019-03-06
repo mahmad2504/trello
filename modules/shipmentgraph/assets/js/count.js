@@ -15,7 +15,8 @@ $(function()
 {
 	"use strict";
 	console.log("Starting Module Visual JS");
-	
+
+	 
 	$('#cbquarterly').click(function() {
 		DrawQuarterShipmentChart(jsondata.data['quarterly']);
 	});
@@ -38,9 +39,6 @@ $(function()
 	$('#cbteam').click(function() {
 		DrawTeamShipmentChart(jsondata.data['team']);
 	});
-	
-	
-	
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
 })
@@ -80,10 +78,33 @@ function drawChart()
         dataType: "json",
         success: function (json) {
 			jsondata = json;
-			DrawMonthShipmentChart(json.data['monthly']);
+			
 			$('#spinner').hide();
-			$('.radios').show();
-			DrawPropertyShipmentChart(json.data['property']);
+			$('#radios').show();
+			
+		
+			
+			if(params.quarter == 1)
+			{
+				$('#cbquarterly').attr('checked', true);
+				DrawQuarterShipmentChart(json.data['quarterly']);
+			}
+			else if(params.biannual == 1)
+			{
+				$('#cbbiannually').attr('checked', true);
+				DrawBiannuallShipmentChart(json.data['biannually']);
+			}
+			else if(params.annual == 1)
+			{
+				$('#cbannually').attr('checked', true);
+				DrawYearShipmentChart(json.data['yearly']);
+			}
+			else
+			{
+				$('#cbmonthly').attr('checked', true);
+				DrawMonthShipmentChart(json.data['monthly']);
+			}
+			//DrawPropertyShipmentChart(json.data['property']);
 		}
     }) 
     // Create our data table out of JSON data loaded from server.
@@ -100,7 +121,7 @@ function DrawTeamShipmentChart(data)
 	options.bar = {groupWidth: "20%"};
 	options.series = {1: {type: 'line'}};
 	
-	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div2'));
+	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div'));
 	chart.draw(data, options);
 }
 function DrawCountryShipmentChart(data)
@@ -111,7 +132,7 @@ function DrawCountryShipmentChart(data)
 	options.bar = {groupWidth: "20%"};
 	options.series = {1: {type: 'line'}};
 	
-	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div2'));
+	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div'));
 	chart.draw(data, options);
 }
 function DrawPropertyShipmentChart(data)
@@ -123,7 +144,7 @@ function DrawPropertyShipmentChart(data)
 	options.bar = {groupWidth: "20%"};
 	options.series = {1: {type: 'line'}};
 	
-	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div2'));
+	var chart = new google.visualization.PieChart(document.getElementById('shipment_chart_div'));
 	chart.draw(data, options);
 }
 function DrawYearShipmentChart(data)

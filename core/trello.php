@@ -2,6 +2,9 @@
 class Trello
 {
 	private $data = [];
+	private $owners = [];
+	private $countries = [];
+	private $teams = [];
 	function __construct()
 	{
 		global $settings;
@@ -35,6 +38,20 @@ class Trello
 		if ($month <= 9) return 3;
 		return 4;
 	}
+	//////////////////////////////////////////////////////////////////
+	function GetPropertyCountriesList()
+	{
+		return array_values($this->countries);
+	}
+	function GetPropertyTeamsList()
+	{
+		return array_values($this->teams);
+	}
+	function GetPropertyOwnersList()
+	{
+		return  array_values($this->owners);
+	}
+	//////////////////////////////////////////////////////////////////////
 	function GetTeamShipmentCount()
 	{
 		$countarray = [];
@@ -91,7 +108,7 @@ class Trello
 	{
 		$countarray = [];
 		foreach($this->data as $d)
-		{
+		{	
 			$biannual=$this->date_biannual($d->received_date);
 			$key = date("y", strtotime($d->received_date))."-".$biannual."H";
 			if(!isset($countarray[$key]))
@@ -134,10 +151,169 @@ class Trello
 		}
 		return $newarray;
 	}
+	///////// Invoices /////////////////////////
+	function GetYearlyInvoiceAmount($owner=null,$country=null,$team=null)
+	{
+		$countarray = [];
+		foreach($this->data as $d)
+		{
+			if($owner != null)
+			{
+				if($owner != $d->property)
+					continue;
+			}
+			if($country !=null)
+			{
+				if($country != $d->origincountry)
+					continue;
+			}
+			if($team !=null)
+			{
+				if($team != $d->team)
+					continue;
+			}
+			$key = date("Y", strtotime($d->received_date));
+			if(!isset($countarray[$key]))
+				$countarray[$key] = 0;
+			if($d->converted_invoice > 0)
+				$countarray[$key] += $d->converted_invoice;
+			else
+				$countarray[$key] += $d->invoice;
+		}
+		ksort($countarray);
+		$newarray = [];
+		foreach($countarray as $key=>$value)
+		{
+			$newarray[$key] = $value;
+		}
+		return $newarray;
+	}
+	
+	function GetBiAnnuallyInvoiceAmount($owner=null,$country=null,$team=null)
+	{
+		$countarray = [];
+		foreach($this->data as $d)
+		{
+			if($owner != null)
+			{
+				if($owner != $d->property)
+					continue;
+			}
+			if($country !=null)
+			{
+				if($country != $d->origincountry)
+					continue;
+			}
+			if($team !=null)
+			{
+				if($team != $d->team)
+					continue;
+			}
+			$biannual=$this->date_biannual($d->received_date);
+			$key = date("y", strtotime($d->received_date))."-".$biannual."H";
+			if(!isset($countarray[$key]))
+				$countarray[$key] = 0;
+			if($d->converted_invoice > 0)
+				$countarray[$key] += $d->converted_invoice;
+			else
+				$countarray[$key] += $d->invoice;
+		}
+		ksort($countarray);
+		$newarray = [];
+		foreach($countarray as $key=>$value)
+		{
+			$newarray[$key] = $value;
+		}
+		return $newarray;
+	}
+	
+	
+	function GetQuartelyInvoiceAmount($owner=null,$country=null,$team=null)
+	{
+		$countarray = [];
+		foreach($this->data as $d)
+		{
+			if($owner != null)
+			{
+				if($owner != $d->property)
+					continue;
+			}
+			if($country !=null)
+			{
+				if($country != $d->origincountry)
+					continue;
+			}
+			if($team !=null)
+			{
+				if($team != $d->team)
+					continue;
+			}
+			$quarter=$this->date_quarter($d->received_date);
+			$key = date("y", strtotime($d->received_date))."-Q".$quarter;
+			if(!isset($countarray[$key]))
+				$countarray[$key] = 0;
+			if($d->converted_invoice > 0)
+				$countarray[$key] += $d->converted_invoice;
+			else
+				$countarray[$key] += $d->invoice;
+		}
+		ksort($countarray);
+		$newarray = [];
+		foreach($countarray as $key=>$value)
+		{
+			$newarray[$key] = $value;
+		}
+		return $newarray;
+	}
+	
+	
+	
+	function GetMonthlyInvoiceAmount($owner=null,$country=null,$team=null)
+	{
+		$countarray = [];
+		foreach($this->data as $d)
+		{
+			if($owner != null)
+			{
+				if($owner != $d->property)
+					continue;
+			}
+			if($country !=null)
+			{
+				if($country != $d->origincountry)
+					continue;
+			}
+			if($team !=null)
+			{
+				if($team != $d->team)
+					continue;
+			}
+			$key = date("Y-m", strtotime($d->received_date));
+			if(!isset($countarray[$key]))
+				$countarray[$key] = 0;
+			if($d->converted_invoice > 0)
+				$countarray[$key] += $d->converted_invoice;
+			else
+				$countarray[$key] += $d->invoice;
+			//echo $d->invoice."<br>";
+			//echo $key." ".$countarray[$key]."<br>";
+		}
+		ksort($countarray);
+		$newarray = [];
+		foreach($countarray as $date=>$value)
+		{
+			$key = date("My", strtotime($date));
+			$newarray[$key] = $value;
+		}
+		//var_dump($newarray);
+		return $newarray;
+	}
+	////////////////////////////////////////////////////////////
 	function GetTicketsData()
 	{
 		return $this->data;
 	}
+	////////////////////////////////////////////////////////////
 	private function ParseTicketsData($data)
 	{
 		global $params;
@@ -172,6 +348,7 @@ class Trello
 				else		
 					continue;
 			}
+			//echo $d->name."<br>";
 			$fields = explode('-',$d->name);
 			if(count($fields)!=4)
 			{
@@ -189,7 +366,7 @@ class Trello
 				$obj->delay =  0;
 				$obj->qos = $obj->delay;
 				$obj->invoice = 0;
-				$obj->converted_invoice = -1;
+				$obj->converted_invoice = 0;
 				$obj->currency = '';
 				$obj->list = $d->list;
 				$obj->export = $d->export;
@@ -234,6 +411,7 @@ class Trello
 				$shipment->currency = 'SEK';
 				//echo $shipment->currency;
 			}
+			
 			else if(strpos($shipment->invoice,'Euros')!= False)
 			{
 				$shipment->invoice = trim(str_replace('Euros','',$shipment->invoice));
@@ -277,6 +455,8 @@ class Trello
 			$shipment->invoice = str_replace(',','',$shipment->invoice);
 			
 			//echo $shipment->invoice."<br>";
+			
+			
 			$parts = explode('(',$shipment->invoice);
 			$shipment->converted_invoice = -1;
 			if(count($parts)>1)
@@ -300,9 +480,6 @@ class Trello
 				$shipment->invoice = 0;
 			}
 	
-			//echo $shipment->error."<br>";
-			//echo $shipment->invoice."<br>";
-			//echo $shipment->currency."<br>";
 			$shipment->invoice = $shipment->invoice * 1;
 			
 			$shipment->team = $team;
@@ -406,6 +583,9 @@ class Trello
 			$obj->export = $d->export;
 			$obj->error = $shipment->error;
 			$obj->qos = $obj->delay;
+			$this->owners[$shipment->property] = $shipment->property;
+			$this->countries[$shipment->origincountry] = $shipment->origincountry;
+			$this->teams[$shipment->team] = $shipment->team;
 			$this->data[] = $obj;//$row;
 		}
 		return $this->data;

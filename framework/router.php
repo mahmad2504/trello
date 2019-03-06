@@ -48,6 +48,21 @@ class Router
 		
 		foreach($this->routes as $route)
 		{
+			$rparts = explode('?',$route->resource);
+			$route->resource = $rparts[0];
+			if(count($rparts)>1)
+			{
+				$keyvalues = explode("&",$rparts[1]);
+				foreach($keyvalues as $keyvalue)
+				{
+					$keyvaluepair = explode("=",$keyvalue);
+					$key = $keyvaluepair[0];
+					$params->$key = $keyvaluepair[1];
+					//var_dump($keyvaluepair);
+				}
+				//var_dump($keyvalue);
+			}
+			//var_dump($route);
 			//echo $route->method."<br>";
 			if($route->method != 'ANY')
 				if($route->method != $method)
@@ -105,13 +120,12 @@ class Router
 				}
 			}
 		}
-		if(count($parts)==1)
+		$funcname =  end($parts);
+		
+		if(function_exists($funcname))
 		{
-			if(function_exists($parts[0]))
-			{
-				$parts[0]($params,$data);
-				return null;
-			}
+			$funcname($params,$data);
+			return null;
 		}
 		$func = $this->default;	
 		if($this->default !=  null)

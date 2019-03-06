@@ -14,6 +14,8 @@
 		<div id="table1">
 		</div>
 	</div>
-	<?php include $modulebase.'/assets/footer.php'; ?>
-	<?php include $modulebase.'/assets/jscripts.php';?>
+	<?php include 'modules/assets/footer.php'; ?>
+	<?php include 'modules/assets/jscripts.php';?>
+	<script type="text/javascript" src="<?php echo $modulepath.'/assets/js/app.js';?>"></script>
+
 </body>
