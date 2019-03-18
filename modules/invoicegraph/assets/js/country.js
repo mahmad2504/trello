@@ -21,24 +21,24 @@ $(function()
 		params.duration = 'month';
 	
 	$('#cbquarterly').click(function() {
-		DrawInvoiceChart('Quarterly Invoices shipped from '+country,jsondata.data[country]['quarterly']);
+		DrawInvoiceChart('Quarterly Invoices of shipments from '+country,jsondata.data[country]['quarterly']);
 		duration = 'quarter';
 		$('#cbquarterly').attr('checked', true);
 	});
 	
 	$('#cbmonthly').click(function() {
 		console.log(country);
-		DrawInvoiceChart('Monthly Invoices shipped from  '+country,jsondata.data[country]['monthly']);
+		DrawInvoiceChart('Monthly Invoices of shipments from  '+country,jsondata.data[country]['monthly']);
 		duration = 'month';
 		$('#cbmonthly').attr('checked', true);
 	});
 	$('#cbbiannually').click(function() {
-		DrawInvoiceChart('Biannual Invoices shipped from '+country,jsondata.data[country]['biannually']);
+		DrawInvoiceChart('Biannual Invoices of shipments from '+country,jsondata.data[country]['biannually']);
 		duration = 'biannual';
 		$('#cbbiannually').attr('checked', true);
 	});
 	$('#cbannually').click(function() {
-		DrawInvoiceChart('Annual Invoices shipped from '+country,jsondata.data[country]['yearly']);
+		DrawInvoiceChart('Annual Invoices of shipments from '+country,jsondata.data[country]['yearly']);
 		duration = 'annual';
 		$('#cbannually').attr('checked', true);
 	});

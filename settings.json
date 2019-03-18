@@ -28,7 +28,17 @@
 			{
 				"method" : "ANY",
 				"uri" : "/",
-				"endpoint" : "modules/homepage/index.php"
+				"endpoint" : "modules/importspage/index.php"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/imports",
+				"endpoint" : "modules/importspage/index.php"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/exports",
+				"endpoint" : "modules/exportspage/index.php"
 			},
 			{
 				"method" : "ANY",

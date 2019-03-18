@@ -98,6 +98,15 @@ function GetTicketData($params,$data)
 	$table = $trello->GetTicketsData();
 	SendResponse($table);
 }
+function GetOptionsList($params,$data)
+{
+	$trello = new Trello();
+	$result = [];
+	$result['owners'] = $trello->GetPropertyOwnersList();
+	$result['countries'] = $trello->GetPropertyCountriesList();
+	$result['teams'] = $trello->GetPropertyTeamsList();
+	SendResponse($result);
+}
 function SyncTrello($params,$data)
 {
 	$trello = new Trello();

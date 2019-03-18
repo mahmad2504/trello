@@ -21,24 +21,24 @@ $(function()
 		params.duration = 'month';
 	
 	$('#cbquarterly').click(function() {
-		DrawInvoiceChart('Quarterly Invoices shipped for '+team,jsondata.data[team]['quarterly']);
+		DrawInvoiceChart('Quarterly Invoices for '+team+" team",jsondata.data[team]['quarterly']);
 		duration = 'quarter';
 		$('#cbquarterly').attr('checked', true);
 	});
 	
 	$('#cbmonthly').click(function() {
 		console.log(team);
-		DrawInvoiceChart('Monthly Invoices shipped for  '+team,jsondata.data[team]['monthly']);
+		DrawInvoiceChart('Monthly Invoices for  '+team+" team",jsondata.data[team]['monthly']);
 		duration = 'month';
 		$('#cbmonthly').attr('checked', true);
 	});
 	$('#cbbiannually').click(function() {
-		DrawInvoiceChart('Biannual Invoices shipped for '+team,jsondata.data[team]['biannually']);
+		DrawInvoiceChart('Biannual Invoices for '+team+" team",jsondata.data[team]['biannually']);
 		duration = 'biannual';
 		$('#cbbiannually').attr('checked', true);
 	});
 	$('#cbannually').click(function() {
-		DrawInvoiceChart('Annual Invoices shipped for '+team,jsondata.data[team]['yearly']);
+		DrawInvoiceChart('Annual Invoices for '+team+" team",jsondata.data[team]['yearly']);
 		duration = 'annual';
 		$('#cbannually').attr('checked', true);
 	});

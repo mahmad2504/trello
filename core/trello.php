@@ -329,13 +329,14 @@ class Trello
 			{
 				if($label->name == 'Export')
 				{
+					//echo "Dddd";
 					$d->export = 1;
 					$ignore = true;
 					continue;
 				}		
 				$team  = $label->name;
 			}
-			if($ignore)
+			/*if($ignore)
 			{
 				if(isset($params->exporttickets))
 				{
@@ -347,12 +348,13 @@ class Trello
 				}
 				else		
 					continue;
-			}
+			}*/
 			//echo $d->name."<br>";
 			$fields = explode('-',$d->name);
 			if(count($fields)!=4)
 			{
-				SendConsole(time(),"Ticket Name '"+$d->name+"' has parsing error");
+				//echo $d->name."<br>";
+				SendConsole(time(),"Ticket Name '".$d->name."' has parsing error");
 				$obj->name = $d->name;
 				$obj->url = $d->url;
 				$obj->origincountry = 'Parse Error';
@@ -566,7 +568,7 @@ class Trello
 				$obj->origincountry = $shipment->origincountry;
 			else
 				//$row['origincountry'] = '';
-				$obj->origincountry = '';
+				$obj->origincountry = 'Unknown';
 				
 			$obj->origincity = $shipment->origincity;
 			$obj->owner = $shipment->owner;
@@ -584,7 +586,8 @@ class Trello
 			$obj->error = $shipment->error;
 			$obj->qos = $obj->delay;
 			$this->owners[$shipment->property] = $shipment->property;
-			$this->countries[$shipment->origincountry] = $shipment->origincountry;
+			//echo "--->".$shipment->origincountry."<br>";
+			$this->countries[$obj->origincountry] = $obj->origincountry;
 			$this->teams[$shipment->team] = $shipment->team;
 			$this->data[] = $obj;//$row;
 		}
@@ -605,6 +608,7 @@ class Trello
 		{
 			$i++;
 			$url = $trello_settings->url.'/lists/'.$listid.'/cards?key='.$trello_settings->key.'&token='.$trello_settings->token;
+			//echo $url;
 			SendConsole(time(),"Accessing api.trello.com for list #".$i); 
 
 			$content = file_get_contents($url);
@@ -618,11 +622,13 @@ class Trello
 				$url= $trello_settings->url.'/card/'.$d->id.'/actions?key='.$trello_settings->key.'&token='.$trello_settings->token.'&filter=updateCheckItemStateOnCard';
 				$j++;
 				//SendConsole(time(),$d->id); 
-				//if($j < 5)
+				//if($j < 67)
 				//	continue;
 				
-				//if($j > 15)
-				//	continue;
+				//if($j > 67)
+				//	die();
+			
+				//echo $d->name."\r\n<br>";
 				SendConsole(time(),"Reading card #".$j."/".$total); 	
 				
 				$content = file_get_contents($url);
@@ -633,7 +639,38 @@ class Trello
 					$debug[] = $action;
 					$action->data->checklist->name = strtolower(trim($action->data->checklist->name));
 					$action->data->checkItem->name = strtolower(trim($action->data->checkItem->name));
-					if($action->data->checklist->name == 'shipment')
+					
+					if($action->data->checklist->name == 'export')
+					{
+						//var_dump($action->data);
+						//var_dump($action->data->checkItem->name);
+						if($action->data->checkItem->name == 'delivered')
+							if($action->data->checkItem->state == 'complete')
+									$d->deliveredon = $action->date;
+						
+						if($action->data->checkItem->name == 'dispatched')
+						{
+							if($action->data->checkItem->state == 'complete')
+									$d->invoicedon = $action->date;	
+						}
+						if (strpos($action->data->checkItem->name, 'dispatched') !== false) 
+						{
+							if(!isset($d->invoicedon))
+							{
+								if($action->data->checkItem->state == 'complete')
+									$d->invoicedon = $action->date;
+							}								
+						}
+						if (strpos($action->data->checkItem->name, 'delivered') !== false) 
+						{
+							if(!isset($d->deliveredon))
+							{
+								if($action->data->checkItem->state == 'complete')
+									$d->deliveredon = $action->date;
+							}								
+						}
+					}
+					else if($action->data->checklist->name == 'shipment')
 					{
 						if($action->data->checkItem->name == 'shipment invoice') //1st Priority invoicedon
 						{

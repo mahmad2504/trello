@@ -5,30 +5,39 @@
 			return;
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-  <div class="container">
-    <a class="navbar-brand" href="#">
+	<a class="navbar-brand" style="margin-left:100px;" href="#">
           <img  width="40px" style="border-radius:10%;" src="<?php echo $modulebase.'/assets/images/logo.png';?>" alt="">
     </a>
-    
     <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav">
+		<!--<ul class="navbar-nav">
         <li id="homecont" class="nav-item">
-          <a id="homelink" class="nav-link" href="this/../">Home
+			  <a id="importslink" class="nav-link" href="this/../imports">Imports
                 <span class="sr-only">(current)</span>
               </a>
-        </li>
-        <li id="shipmentscont" class="nav-item">
-          <a id="shipmentslink" class="nav-link" href="this/../shipments">Shipments
-		  
+			  <a id="exportslink" class="nav-link" href="this/../exports">Exports
+					<span class="sr-only">(current)</span>
 		  </a>
         </li>
-		<li id="invoicescont" id="invoices" class="nav-item">
-          <a id="invoiceslink" class="nav-link" href="this/../invoices">Invoices</a>
-        </li>
-      </ul>
+		</ul>-->
+		<span class="nav-item dropdown" >
+			<a id="shipmentslink" style="color:grey;" class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			Shipments
+			</a>
+			<div class="dropdown-menu" aria-labelledby="Preview">
+			<a class="dropdown-item" href="this/../imports">Imports</a>
+			<a class="dropdown-item" href="this/../exports">Exports</a>
+			</div>
+		</span>
+		<span class="nav-item dropdown" >
+			<a id="analyticslink" style="color:grey;" class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			Analytics
+			</a>
+			<div class="dropdown-menu" aria-labelledby="Preview">
+			<a class="dropdown-item" href="this/../shipments">Shipments</a>
+			<a class="dropdown-item" href="this/../invoices">Invoices</a>
     </div>
-	
-	<span id="toolbar"  style="color:white;float:right;margin-right:10px;display:none;">
+		</span>
+		<span id="toolbar" class="ml-auto" style="color:white;float:right;margin-right:100px;display:none;">
 		<a href="#">
 				<i style="color:lawngreen;" id="download"  title="Download data" class="fa fa-download fa-sm fa-border" aria-hidden="true"></i>  
 		</a>
@@ -83,17 +92,27 @@
 <script>
 	if(resource == 'invoices')
 	{
-		var d = document.getElementById("invoiceslink");
+		var d = document.getElementById("analyticslink");
+		d.style.color = "#ffffff";
 		d.className += " active";
 	}
 	else if(resource == 'shipments')
 	{
-		var d = document.getElementById("shipmentslink");
+		var d = document.getElementById("analyticslink");
+		d.style.color = "#ffffff";
 		d.className += " active";
+	}
+	else if(resource == 'exports')
+	{
+		var d = document.getElementById("shipmentslink");
+		d.style.color = "#ffffff";
+		d.className += " active";
+		document.getElementById("toolbar").style.display = "block";
 	}
 	else
 	{
-		var d = document.getElementById("homelink");
+		var d = document.getElementById("shipmentslink");
+		d.style.color = "#ffffff";
 		d.className += " active";
 		document.getElementById("toolbar").style.display = "block";
 	}

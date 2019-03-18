@@ -2,6 +2,7 @@ $(function()
 {
 	"use strict";
 	console.log("Starting JS");
+	
 	$('#download').click(function(){
 		table.download("csv", "data.csv");
 	});
@@ -39,7 +40,7 @@ $(function()
 		columns:
 		[
 			{resizable: false,title:"",formatter:"rownum", align:"center", width:"3%", headerSort:false},
-			{resizable: false,title:"Shipment Title",field:"name", headerFilter:enablefilters, width:"15%",
+			{resizable: false,title:"Shipment Title (Exports)",field:"name", headerFilter:enablefilters, width:"24%",
 				formatter:function(cell, formatterParams)
 				{
 					var value = cell.getValue();
@@ -47,46 +48,30 @@ $(function()
 					return '<a href="'+row._row.data.url+'">'+value+'</a>';
 				}			
 			}, 
-			{resizable: false,title:"Country",field:"origincountry", headerFilter:enablefilters,width:"6%",
+			{resizable: false,title:"Country",field:"origincountry", headerFilter:enablefilters,width:"10%",
 					
 			},
 			
-			{resizable: false,title:"City", field:"origincity", headerFilter:enablefilters,align:"left", width:"6%",
+			{resizable: false,title:"City", field:"origincity", headerFilter:enablefilters,align:"left", width:"10%",
 				
 			},
-			{resizable: false,title:"Owner", field:"owner", headerFilter:enablefilters, align:"left", width:"8%",
+			{resizable: false,title:"Owner", field:"owner", headerFilter:enablefilters, align:"left", width:"10%",
 				
 			},
-			{resizable: false,title:"Team", field:"team", align:"left",headerFilter:enablefilters,width:"5%",
+			{resizable: false,title:"Team", field:"team", align:"left",headerFilter:enablefilters,width:"7%",
 		
 			},
-			{resizable: false,title:"Propert of", field:"property",headerFilter:enablefilters, align:"left", width:"7%",
+			{resizable: false,title:"Propert of", visible:false,field:"property",headerFilter:enablefilters, align:"left", width:"7%",
 		
 			},
-			{resizable: false,title:"HSCODE",headerFilter:enablefilters, field:"hscode", align:"left", width:"6%",
+			{resizable: false,title:"HSCODE",visible:false,headerFilter:enablefilters, field:"hscode", align:"left", width:"6%",
 		
 			},
-			{resizable: false,title:"Shipped",headerFilter:enablefilters, field:"shipment_date", align:"left", width:"6%",
-				formatter:"datetime", 
-				formatterParams:{
-					inputFormat:"YYYY-MM-DD",
-					outputFormat:"DD/MM/YY",
-					invalidPlaceholder:"(invalid date)"
-				}
-			},
-			{resizable: false,title:"Received",headerFilter:enablefilters, field:"received_date", align:"left", width:"7%",
-				formatter:"datetime", 
-				formatterParams:{
-					inputFormat:"YYYY-MM-DD",
-					outputFormat:"DD/MM/YY",
-					invalidPlaceholder:"(invalid date)"
-				}
-			},
-			{resizable: false,title:"Delivery Time",headerFilter:enablefilters, field:"delay",sorter:"number",align:"left", width:"9%",
+			{resizable: false,title:"Delivery Time",visible:false,headerFilter:enablefilters, field:"delay",sorter:"number",align:"left", width:"9%",
 	
 				
 			},
-			{resizable: false,title:"Invoice",headerFilter:enablefilters, field:"invoice",sorter:"number",align:"left", width:"7%",
+			{resizable: false,title:"Invoice",headerFilter:enablefilters, field:"invoice",sorter:"number",align:"left", width:"8%",
 				formatter:function(cell, formatterParams)
 				{
 					var value = cell.getValue();
@@ -97,13 +82,13 @@ $(function()
 					//return '<a href="'+row._row.data.url+'">'+value+'</a>';
 				}	
 			},
-			{resizable: false,title:"CUR",headerFilter:enablefilters, field:"currency",align:"left", width:"5%",
+			{resizable: false,title:"CUR",headerFilter:enablefilters, field:"currency",align:"left", width:"7%",
 		
 			},
-			{resizable: false,title:"Exp",headerFilter:enablefilters, visible: visible,field:"export",align:"left", width:"3%",
+			{resizable: false,title:"Exp",visible:false,headerFilter:enablefilters,field:"export",align:"left", width:"3%",
 		
 			},
-			{resizable: false,title:"QOS", headerFilter:enablefilters, field:"qos",sorter:"number",align:"left", width:"6%",
+			{resizable: false,title:"QOS",visible:false, headerFilter:enablefilters, field:"qos",sorter:"number",align:"left", width:"6%",
 				formatter:"star", formatterParams:{stars:5},
 				mutator:function(value, data, type, params, component)
 				{
@@ -142,7 +127,26 @@ $(function()
 					}
 					return value;
 				}
+			},
+			{resizable: false,title:"Dispatched",headerFilter:enablefilters, field:"shipment_date", align:"left", width:"10%",
+				formatter:"datetime", 
+				formatterParams:{
+					inputFormat:"YYYY-MM-DD",
+					outputFormat:"DD/MM/YY",
+					invalidPlaceholder:"(invalid date)"
+				}
+			},
+			{resizable: false,title:"Delivered",headerFilter:enablefilters, field:"received_date", align:"left", width:"10%",
+				formatter:"datetime", 
+				formatterParams:{
+					inputFormat:"YYYY-MM-DD",
+					outputFormat:"DD/MM/YY",
+					invalidPlaceholder:"(invalid date)"
 			}
+			},
+		],
+		initialFilter:[
+			{field:"export", type:"=", value:1}
 		],
 		initialSort:
 		[
