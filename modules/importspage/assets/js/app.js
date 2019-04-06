@@ -145,6 +145,9 @@ $(function()
 				}
 			}
 		],
+		initialFilter:[
+			{field:"export", type:"=", value:0}
+		],
 		initialSort:
 		[
 			{column:"received_date", dir:"dsc"} //sort by this first
