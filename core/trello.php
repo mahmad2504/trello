@@ -351,10 +351,12 @@ class Trello
 			}*/
 			//echo $d->name."<br>";
 			$fields = explode('-',$d->name);
+			//var_dump($d);
 			if(count($fields)!=4)
 			{
 				//echo $d->name."<br>";
 				SendConsole(time(),"Ticket Name '".$d->name."' has parsing error");
+				$obj->desc = $d->desc;
 				$obj->name = $d->name;
 				$obj->url = $d->url;
 				$obj->origincountry = 'Parse Error';
@@ -388,7 +390,8 @@ class Trello
 				//$row['list'] = $d->list;
 				//$row['export'] = $d->export;
 				//$row['error'] = 1;
-				$rowdata[] = $obj;//$row;
+				
+				$this->data[] = $obj;//$row;
 				continue;
 			}
 			$shipment =  new StdClass();
@@ -560,6 +563,7 @@ class Trello
 			
 			$obj->name = $shipment->name;
 			$obj->url = $d->url;
+			$obj->desc = $d->desc;
 			//$obj->name = $shipment->name;
 			//$obj->url = $d->url;
 			//$row['name'] = '<a href="'.$d->url.'">'.substr($shipment->name,0,50).'</a>';

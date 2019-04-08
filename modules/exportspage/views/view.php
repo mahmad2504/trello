@@ -10,7 +10,7 @@
 </head>
 <body>
 	<?php include 'modules/assets/header.php'; ?>
-	<div style="width:85%; margin-left: auto; margin-right: auto; text-align:center;color:grey" class="center">
+	<div style="width:90%; margin-left: auto; margin-right: auto; text-align:center;color:grey" class="center">
 		<div id="table1">
 		</div>
 	</div>

@@ -124,6 +124,9 @@ $(function()
 			{resizable: false,title:"",visible: false, field:"error",align:"left", width:"3%",
 				mutator:function(value, data, type, params, component)
 				{
+					if(data.export == 1)
+						return '';
+					
 					if(value == 1)
 					{
 						error = 1;

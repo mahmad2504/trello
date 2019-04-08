@@ -55,7 +55,6 @@
 				"uri" : "/invoices",
 				"endpoint" : "modules/invoicespage/index.php"
 			},
-			
 			{
 				"method" : "ANY",
 				"uri" : "/graph/shipment/count",

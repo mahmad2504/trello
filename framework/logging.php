@@ -48,6 +48,7 @@ function SendConsole($id , $msg) {
 	global $params;
 	if(!isset($params->console))
 		return;
+	if(isset($params->data))
 	echo $params->data . PHP_EOL;
 	echo "id: $id" . PHP_EOL;
 	echo "data: {\n";
