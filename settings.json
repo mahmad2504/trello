@@ -79,6 +79,11 @@
 				"method" : "ANY",
 				"uri" : "/graph/invoices/teams",
 				"endpoint" : "modules/invoicegraph/index.php?view=team"
+			},
+			{
+				"method" : "ANY",
+				"uri" : "/viewpayment",
+				"endpoint" : "modules/viewpayment/index.php?view=view"
 			}
 		],
 		"data_folder" : "data",

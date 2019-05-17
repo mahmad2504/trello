@@ -1,10 +1,36 @@
 <?php
+
+function cmp($a, $b)
+{
+    return strcmp($a->received_date, $b->received_date);
+}
+function ACCOUNTMAP($country)
+{
+	switch($country)
+	{
+		case 'US':
+		case 'USA':
+			return 'US';
+		case 'Egypt':
+			return 'Egypt';
+		case 'Hungary':
+			return 'Hungary';
+		case 'Ireland':
+			return 'Ireland';
+		case 'Japan':
+			return 'Japan';
+		default:
+			return 'Unknown';
+	}
+}
+
 class Trello
 {
 	private $data = [];
 	private $owners = [];
 	private $countries = [];
 	private $teams = [];
+	private $accounts = null;
 	function __construct()
 	{
 		global $settings;
@@ -13,8 +39,55 @@ class Trello
 			$content  = file_get_contents($settings->data_folder.'/data.serialized');
 			$data = unserialize($content);
 			$this->data = $this->ParseTicketsData($data);
+			$payment = new Payments();
+			$paydata = $payment->GetData();
+			
+			foreach($paydata as $d)
+			{
+				$d->received_date = $d->date; 
+				$d->account = ACCOUNTMAP($d->account);
+				$d->invoice = $d->amount;
+				if(isset($d->type))
+					$d->name = "Carry Forward";
+				else
+					$d->name = "Payment";
+				$d->currency ='USD';
+				$d->converted_invoice = -1;
+				$d->export = "-1";
+				$this->data[] = $d;
+			}
+			usort($this->data, "cmp");
+			$account= array();
+			foreach($this->data as $d)
+			{
+				if($d->export == 1)
+					continue;
+				if(!array_key_exists($d->account,$account))
+					$account[$d->account]  = 0;
+				
+				if($d->invoice <= 500)
+				{
+					$d->charged = 0;
+					$d->balance = round($account[$d->account],1);
+					continue;
+				}
+				$d->charged = 1;
+				
+				if($d->export == -1)
+					$account[$d->account]  += $d->invoice;
+				else 
+					$account[$d->account]  -= $d->invoice;
+				$d->balance = round($account[$d->account],1);
+				//echo $d->name." ".$d->origincountry."  ".$d->invoice." ".$d->balance ."<br>";
+			}
+			$this->accounts = $account;
+			asort($this->accounts);
 	
 		}
+	}
+	function GetAccounts()
+	{
+		return $this->accounts;
 	}
 	function GetLastUpdatedOn()
 	{
@@ -57,6 +130,8 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
 			$key = $d->team;
 			if(!isset($countarray[$key]))
 				$countarray[$key] = 0;
@@ -70,6 +145,8 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
 			$key = $d->origincountry;
 			if(!isset($countarray[$key]))
 				$countarray[$key] = 0;
@@ -83,6 +160,8 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
 			$key = $d->property;
 			if(!isset($countarray[$key]))
 				$countarray[$key] = 0;
@@ -96,6 +175,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
+			
 			$key = date("Y", strtotime($d->received_date));
 			if(!isset($countarray[$key]))
 				$countarray[$key] = 0;
@@ -109,6 +191,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{	
+			if(($d->export == 1)||($d->export == -1))
+				continue; 
+			
 			$biannual=$this->date_biannual($d->received_date);
 			$key = date("y", strtotime($d->received_date))."-".$biannual."H";
 			if(!isset($countarray[$key]))
@@ -123,6 +208,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
+			
 			$quarter=$this->date_quarter($d->received_date);
 			$key = date("y", strtotime($d->received_date))."-Q".$quarter;
 			if(!isset($countarray[$key]))
@@ -137,6 +225,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
+			
 			$key = date("Y-m", strtotime($d->received_date));
 			if(!isset($countarray[$key]))
 				$countarray[$key] = 0;
@@ -157,6 +248,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
+			
 			if($owner != null)
 			{
 				if($owner != $d->property)
@@ -194,6 +288,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
+			
 			if($owner != null)
 			{
 				if($owner != $d->property)
@@ -233,6 +330,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
+			
 			if($owner != null)
 			{
 				if($owner != $d->property)
@@ -273,6 +373,9 @@ class Trello
 		$countarray = [];
 		foreach($this->data as $d)
 		{
+			if(($d->export == 1)||($d->export == -1))
+				continue;
+			
 			if($owner != null)
 			{
 				if($owner != $d->property)
@@ -398,12 +501,12 @@ class Trello
 			$shipment->error = 0;
 			$shipment->name = $fields[0];
 			$shipment->origincity  = '';
-			$shipment->origincoutry = $fields[1];
+			$shipment->origincoutry = trim($fields[1]);
 			$origin = explode("/",$fields[1]);
 			if(count($origin)>1)
 			{
 				$shipment->origincity = $origin[0];
-				$shipment->origincountry = $origin[1];
+				$shipment->origincountry = trim($origin[1]);
 			}
 			$shipment->owner = $fields[2];
 			$shipment->invoice = $fields[3];
@@ -569,7 +672,7 @@ class Trello
 			//$row['name'] = '<a href="'.$d->url.'">'.substr($shipment->name,0,50).'</a>';
 			if(isset($shipment->origincountry))
 				//$row['origincountry'] = $shipment->origincountry;
-				$obj->origincountry = $shipment->origincountry;
+				$obj->origincountry = trim($shipment->origincountry);
 			else
 				//$row['origincountry'] = '';
 				$obj->origincountry = 'Unknown';
@@ -592,6 +695,7 @@ class Trello
 			$this->owners[$shipment->property] = $shipment->property;
 			//echo "--->".$shipment->origincountry."<br>";
 			$this->countries[$obj->origincountry] = $obj->origincountry;
+			$obj->account = ACCOUNTMAP($obj->origincountry);
 			$this->teams[$shipment->team] = $shipment->team;
 			$this->data[] = $obj;//$row;
 		}
@@ -603,6 +707,81 @@ class Trello
 		global $settings;
 		$trello_settings = $settings->app->trello;
 		
+		$url="https://api.trello.com/1/cards/5caae9a83c4b3c1021e2a231?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9&fields=desc";
+		$data = file_get_contents($url);
+		$payment  = json_decode($data);
+		$data = explode("\n",$payment->desc);
+		
+		$save = array();
+		
+		$obj = new StdClass();
+		$obj->account =  'US';
+		$obj->amount =135377.6;
+		$obj->type = 'CF';
+		$obj->date = '2018-01-01';
+		$save[] = $obj;	
+		
+		$obj = new StdClass();
+		$obj->account =  'Ireland';
+		$obj->amount = 34913.5;
+		$obj->type = 'CF';
+		$obj->date = '2018-01-01';
+		$save[] = $obj;
+		
+		$obj = new StdClass();
+		$obj->account =  'Japan';
+		$obj->amount = 12524;
+		$obj->type = 'CF';
+		$obj->date = '2018-01-01';
+		$save[] = $obj;
+	
+		$obj = new StdClass();
+		$obj->account =  'Hungary';
+		$obj->amount = 780;
+		$obj->type = 'CF';
+		$obj->date = '2018-01-01';
+		$save[] = $obj;
+		
+		$obj = new StdClass();
+		$obj->account =  'Egypt';
+		$obj->amount = 17827;
+		$obj->type = 'CF';
+		$obj->date = '2018-01-01';
+		$save[] = $obj;
+		
+		$account_name = null;
+		foreach($data as $d)
+		{		
+			$d = preg_replace("/[^A-Za-z0-9 -]/", '', $d);	
+			if(strpos($d,'ate')==1)
+			{
+				$obj = new StdClass();
+				$obj->account = $account_name;
+				//echo "date=".trim($d)."\r\n";
+				$obj->date = explode(" ",trim($d))[1];
+				$date = DateTime::createFromFormat('j-M-Y', $obj->date);
+				$obj->date = $date->format('Y-m-d');
+			}
+			else if(strpos($d,'mount')==1)
+			{
+				//echo "amount =".trim($d);
+				$obj->amount = explode(" ",trim($d))[1];
+				$save[] = $obj;
+			}
+			else if(strlen(trim($d))>0)
+			{
+				//$obj = new StdClass();
+				//$obj->account =  trim($d);
+				$account_name = trim($d);
+				//echo "Country=".trim($d);
+				//$save[] = $obj;
+			}	
+		}
+		$save = serialize($save);
+		//var_dump($save);
+		file_put_contents($settings->data_folder."/payment.serialized",$save);
+		
+	//exit();
 		$lists = array();
 		$lists[] = '5a851a762654fc6a36e11f48';
 		$lists[] = '5a78b08c6f85c304e464aa07';
@@ -764,6 +943,7 @@ class Trello
 //https://api.trello.com/1/members/me/boards?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9
 //https://api.trello.com/1/boards/5a78b043543acc40d8ba06f9/lists?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9
 //https://api.trello.com/1/boards/5a78b043543acc40d8ba06f9/cards?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9
+//https://api.trello.com/1/lists/5b97bd3738c1cb1a7ca651ad/cards?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9
 
 //https://api.trello.com/1/lists/5a78b08c6f85c304e464aa07/cards?key=005173e331a61db3768a13e6e9d1160e&token=0e457d47dbd6eb1ed558ac42f8ba03b94738cac35a738d991cdf797d6fcfbbe9
 

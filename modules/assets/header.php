@@ -37,6 +37,14 @@
 			<a class="dropdown-item" href="this/../invoices">Invoices</a>
     </div>
 		</span>
+		<span class="nav-item dropdown" >
+			<a id="paymentlink" style="color:grey;" class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			Payments
+			</a>
+			<div class="dropdown-menu" aria-labelledby="Preview">
+			<a class="dropdown-item" href="this/../viewpayment">View</a>
+		</div>
+		</span>
 		<span id="toolbar" class="ml-auto" style="color:white;float:right;margin-right:100px;display:none;">
 		<a href="#">
 				<i style="color:lawngreen;" id="download"  title="Download data" class="fa fa-download fa-sm fa-border" aria-hidden="true"></i>  
@@ -90,7 +98,15 @@
 <!-- /.modal -->
 
 <script>
-	if(resource == 'invoices')
+	if(resource == 'viewpayment')
+	{
+		var d = document.getElementById("paymentlink");
+		d.style.color = "#ffffff";
+		d.className += " active";
+		//document.getElementById("toolbar").style.display = "block";
+	}
+	
+	else if(resource == 'invoices')
 	{
 		var d = document.getElementById("analyticslink");
 		d.style.color = "#ffffff";

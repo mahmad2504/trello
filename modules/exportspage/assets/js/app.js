@@ -48,10 +48,10 @@ $(function()
 					return '<a href="'+row._row.data.url+'">'+value+'</a>';
 				}			
 			}, 
-			{resizable: false,title:"Country",field:"origincountry", headerFilter:enablefilters,width:"9%",
+			{resizable: false,title:"Country",field:"origincountry", headerFilter:enablefilters,width:"8%",
 					
 			},
-			{resizable: false,title:"City", field:"origincity", headerFilter:enablefilters,align:"left", width:"9%",
+			{resizable: false,title:"City", field:"origincity", headerFilter:enablefilters,align:"left", width:"8%",
 				
 			},
 			{resizable: false,title:"Owner", field:"owner", headerFilter:enablefilters, align:"left", width:"9%",
@@ -144,7 +144,7 @@ $(function()
 					return value;
 				}
 			},
-			{resizable: false,title:"Delivery In",visible:true,headerFilter:enablefilters, field:"delay",sorter:"number",align:"left", width:"8%",
+			{resizable: false,title:"Delivery Time",visible:true,headerFilter:enablefilters, field:"delay",sorter:"number",align:"left", width:"10%",
 	
 				
 			},
