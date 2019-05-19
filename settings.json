@@ -82,8 +82,8 @@
 			},
 			{
 				"method" : "ANY",
-				"uri" : "/viewpayment",
-				"endpoint" : "modules/viewpayment/index.php?view=view"
+				"uri" : "/accounts",
+				"endpoint" : "modules/viewaccounts/index.php?view=view"
 			}
 		],
 		"data_folder" : "data",

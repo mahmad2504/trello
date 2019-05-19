@@ -47,7 +47,7 @@
 		border-color: #517994;
 		background-color: #ffffff;
 	}
-		
+	
 	.select-style {
 		border: 1px solid #ccc;
 		width: 120px;
