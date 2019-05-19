@@ -1,3 +1,11 @@
+function numberWithCommas(x) {
+    x = x.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x))
+        x = x.replace(pattern, "$1,$2");
+    return x;
+}
+
 $(function() 
 {
 	"use strict";
@@ -83,9 +91,9 @@ $(function()
 					if(row._row.data.charged ==  0)
 						return value;
 					if(row._row.data.export == -1)
-						return '<span style="color:green;">+'+value+"</span>";
+						return '<span style="color:green;">+'+numberWithCommas(value)+"</span>";
 					else
-						return '<span style="color:red;">-'+value+"</span>";
+						return '<span style="color:red;">-'+numberWithCommas(value)+"</span>";
 				}	
 			},
 			{resizable: false,title:"Balance",headerFilter:enablefilters, field:"balance",align:"left", width:"12%",
@@ -93,9 +101,9 @@ $(function()
 				{
 					var value = cell.getValue();
 					if(value >= 0)
-						return '<span style="color:green;">'+value+"</span>";
+						return '<span style="color:green;">$ '+numberWithCommas(value)+"</span>";
 					else
-						return '<span style="color:red;">'+value+"</span>";
+						return '<span style="color:red;">$ '+numberWithCommas(value)+"</span>";
 				}
 			},
 			{resizable: false,title:"Exp",visible:false,headerFilter:enablefilters,field:"export",align:"left", width:"3%",

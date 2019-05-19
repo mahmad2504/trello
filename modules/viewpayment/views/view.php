@@ -109,7 +109,7 @@
 									else
 										$cecolo = 'red';
 									
-									$contractexpiry = date('d F y', strtotime($contractexpiry));
+									$contractexpiry = date('d F Y', strtotime($contractexpiry));
 									
 									if($balance>=$high)
 										$color = 'green';
@@ -122,7 +122,7 @@
 									echo '<td>'.$i.'</td>';
 									echo '<td>'.$account.'</td>';
 									echo '<td style="color:'.$cecolo.'";>'.$contractexpiry.'</td>';
-									echo '<td style="color:'.$color.'";>'.round($balance).'</td>';
+									echo '<td style="color:'.$color.'";>$ '.number_format(round($balance)).'</td>';
 								echo '</tr>';
 								$i++;
 							}

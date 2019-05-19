@@ -5,6 +5,18 @@ function SaveInSession($params,$data)
 		$_SESSION[$key] = $value;
 	SendResponse('Done');
 }
+function GetAccounts()
+{
+	$trello = new Trello();
+	$result = $trello->GetAccounts();
+	SendResponse($result);
+}
+function GetPaymentData()
+{
+	$payment = new Payments();
+	$result = $payment->GetData();
+	SendResponse($result);
+}
 function GetInvoiceAmountByTeam($params,$data)
 {
 	$result = [];
