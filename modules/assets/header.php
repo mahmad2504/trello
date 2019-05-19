@@ -39,10 +39,10 @@
 		</span>
 		<span class="nav-item dropdown" >
 			<a id="paymentlink" style="color:grey;" class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-			Payments
+			Accounts
 			</a>
 			<div class="dropdown-menu" aria-labelledby="Preview">
-			<a class="dropdown-item" href="this/../viewpayment">View</a>
+			<a class="dropdown-item" href="this/../accounts">View</a>
 		</div>
 		</span>
 		<span id="toolbar" class="ml-auto" style="color:white;float:right;margin-right:100px;display:none;">
