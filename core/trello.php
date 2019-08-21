@@ -4,6 +4,17 @@ function cmp($a, $b)
 {
     return strcmp($a->received_date, $b->received_date);
 }
+function MapCountry($country)
+{
+	switch($country)
+	{
+		case 'US':
+		case 'USA':
+			return 'US';
+	}
+				
+	return $country;
+}
 function ACCOUNTMAP($country)
 {
 	switch($country)
@@ -88,6 +99,11 @@ class Trello
 	function GetAccounts()
 	{
 		return $this->accounts;
+	}
+	function GetLastUpdatedOn_ticks()
+	{
+		global $settings;
+		return filemtime($settings->data_folder.'/data.serialized');
 	}
 	function GetLastUpdatedOn()
 	{
@@ -672,7 +688,7 @@ class Trello
 			//$row['name'] = '<a href="'.$d->url.'">'.substr($shipment->name,0,50).'</a>';
 			if(isset($shipment->origincountry))
 				//$row['origincountry'] = $shipment->origincountry;
-				$obj->origincountry = trim($shipment->origincountry);
+				$obj->origincountry = MapCountry(trim($shipment->origincountry));
 			else
 				//$row['origincountry'] = '';
 				$obj->origincountry = 'Unknown';

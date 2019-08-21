@@ -4,6 +4,15 @@
 		if($params->noheaders == 1)
 			return;
 ?>
+	<span style="color:red">
+<?php
+	$trello = new Trello();
+	
+	if($trello->GetLastUpdatedOn_ticks() < strtotime('-1 days')) {
+		echo "Please Sync - Last updated ".$trello->GetLastUpdatedOn();
+	}
+?>
+	</span>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 	<a class="navbar-brand" style="margin-left:100px;" href="#">
           <img  width="40px" style="border-radius:10%;" src="<?php echo $modulebase.'/assets/images/logo.png';?>" alt="">
