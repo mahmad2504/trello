@@ -52,7 +52,8 @@ class Trello
 			$this->data = $this->ParseTicketsData($data);
 			$payment = new Payments();
 			$paydata = $payment->GetData();
-			
+			if($paydata == null)
+				return;
 			foreach($paydata as $d)
 			{
 				$d->received_date = $d->date; 
