@@ -1,0 +1,30 @@
+update command
+curl "http://localhost/trello/shipment-and-customs-clearance/sync?data=data&console=1"
+
+--------------- watchdog ----------------
+
+
+Trello service
+
+https://healthchecks.io
+
+
+
+URL to mark success
+
+https://hc-ping.com/227be297-adf3-4880-a78e-2b775c95e20a
+
+URL to mark fail
+
+https://hc-ping.com/227be297-adf3-4880-a78e-2b775c95e20a/fail
+
+
+login
+
+mumtazahmad2504@gmail.com
+
+gsmp1000
+
+
+
+Emails in Gmail are forwarded to  pkl_logistics@mentor.com
