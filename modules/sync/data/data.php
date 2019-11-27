@@ -6,5 +6,6 @@ header('Cache-Control: no-cache');
 $old = ini_set('memory_limit', '2192M'); 
 $trello = new Trello();
 $trello->Sync();
+file_get_contents("https://hc-ping.com/227be297-adf3-4880-a78e-2b775c95e20a");
 return;
 ?>
