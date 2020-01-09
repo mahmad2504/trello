@@ -30,6 +30,8 @@ function ACCOUNTMAP($country)
 			return 'Ireland';
 		case 'Japan':
 			return 'Japan';
+		case 'Taiwan':
+			return 'Taiwan';
 		default:
 			return 'Unknown';
 	}
