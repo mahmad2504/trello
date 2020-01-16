@@ -44,6 +44,7 @@ class Trello
 	private $countries = [];
 	private $teams = [];
 	private $accounts = null;
+	private $contract_expiry = [];
 	function __construct()
 	{
 		global $settings;
@@ -91,6 +92,11 @@ class Trello
 					$account[$d->account]  += $d->invoice;
 				else 
 					$account[$d->account]  -= $d->invoice;
+				if(isset($d->contract_expiry))
+				{
+					$this->contract_expiry[$d->account] = $d->contract_expiry;
+					
+				}
 				$d->balance = round($account[$d->account],1);
 				//echo $d->name." ".$d->origincountry."  ".$d->invoice." ".$d->balance ."<br>";
 			}
@@ -98,6 +104,10 @@ class Trello
 			asort($this->accounts);
 	
 		}
+	}
+	function GetContractExpiry()
+	{
+		return $this->contract_expiry;
 	}
 	function GetAccounts()
 	{
@@ -769,6 +779,8 @@ class Trello
 		$save[] = $obj;
 		
 		$account_name = null;
+		$contract_expiry = null;
+		//var_dump($data);
 		foreach($data as $d)
 		{		
 			$d = preg_replace("/[^A-Za-z0-9 -]/", '', $d);	
@@ -776,6 +788,7 @@ class Trello
 			{
 				$obj = new StdClass();
 				$obj->account = $account_name;
+				$obj->contract_expiry = $contract_expiry;
 				//echo "date=".trim($d)."\r\n";
 				$obj->date = explode(" ",trim($d))[1];
 				$date = DateTime::createFromFormat('j-M-Y', $obj->date);
@@ -786,6 +799,13 @@ class Trello
 				//echo "amount =".trim($d);
 				$obj->amount = explode(" ",trim($d))[1];
 				$save[] = $obj;
+			}
+			else if(strpos($d,'ontract')==1)
+			{
+				$contract_expiry = substr(trim($d),15);
+				$d=strtotime($contract_expiry);
+				$contract_expiry = date("Y-m-d", $d);
+			
 			}
 			else if(strlen(trim($d))>0)
 			{

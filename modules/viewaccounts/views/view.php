@@ -9,6 +9,9 @@
 	$trello = new Trello();
 	$countries  = $trello->GetPropertyCountriesList();
 	$accounts = $trello->GetAccounts();
+	$contract_expiry = $trello->GetContractExpiry();
+	
+	
 	
 	$range['Ireland'] = [10000,20000,'2020-03-15',1,2];
 	$range['Japan'] = [10000,50000,'2020-03-15',1,2];
@@ -77,7 +80,8 @@
 <body>
 	<?php include 'modules/assets/header.php'; ?>
 	
-	<div class="container"> 
+<div style="width:85%; margin-left: auto; margin-right: auto" class="center">
+
 		<div class="row"> 
 			<div class="col-sm-3">
 				<div style="margin-top:10px;">Account Balance</div>
@@ -115,10 +119,18 @@
 									continue;
 								$color = 'blue';
 								$contractexpiry = 'none';
+								if(array_key_exists($account,$contract_expiry))
+								{
+									$contractexpiry = $contract_expiry[$account];
+									
+								}
+								
 								if(array_key_exists($account,$range))
 								{
 									$low = $range[$account][0];
 									$high = $range[$account][1];
+									
+									if($contractexpiry == 'none')
 									$contractexpiry = $range[$account][2];
 									$celow = $range[$account][3];
 									$cehigh = $range[$account][4];
