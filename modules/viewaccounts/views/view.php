@@ -103,17 +103,8 @@
 							{
 								$begin = new DateTime( $date1 );
 								$end = new DateTime( $date2 );
-								$end = $end->modify( '+1 month' );
-
-								$interval = DateInterval::createFromDateString('1 month');
-
-								$period = new DatePeriod($begin, $interval, $end);
-								$counter = 0;
-								foreach($period as $dt) {
-									$counter++;
-								}
-
-								return $counter;
+								$diff = $end->diff($begin)->format("%a");
+								return ($diff/30);
 							}
 							foreach($accounts as $account=>$balance)
 							{
