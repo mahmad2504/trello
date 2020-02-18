@@ -14,11 +14,13 @@
 	
 	
 	$range['Ireland'] = [10000,20000,'2020-03-15',1,2];
-	$range['Japan'] = [10000,50000,'2020-03-15',1,2];
+	$range['Japan'] = [5000,10000,'2020-03-15',1,2];
 	$range['US'] = [25000,50000,'2020-03-15',1,2];
 	$range['Egypt'] = [10000,20000,'2020-03-15',1,2];
 	$range['Hungary'] = [10000,20000,'2020-03-15',1,2];
-	$range['Taiwan'] = [10000,20000,'2020-03-15',1,2];
+	$range['Taiwan'] = [5000,10000,'2020-03-15',1,2];
+	$range['United Kingdom'] = [10000,20000,'2020-03-15',1,2];
+	$range['UK'] = [5000,10000,'2020-03-15',1,2];
 	
 	?>
 	<style>
@@ -80,7 +82,7 @@
 <body>
 	<?php include 'modules/assets/header.php'; ?>
 	
-<div style="width:85%; margin-left: auto; margin-right: auto" class="center">
+<div style="width:90%; margin-left: auto; margin-right: auto" class="center">
 
 		<div class="row"> 
 			<div class="col-sm-3">
